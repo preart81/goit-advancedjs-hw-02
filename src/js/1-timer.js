@@ -1,5 +1,7 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -30,7 +32,13 @@ const options = {
   onClose(selectedDates) {
     // console.log(selectedDates[0]);
     if (selectedDates[0] < new Date()) {
-      window.alert('Please choose a date in the future');
+      // window.alert('Please choose a date in the future');
+      iziToast.error({
+        title: '',
+        message: 'Please choose a date in the future',
+        position: 'topRight',
+      });
+
       btnStart.disabled = true;
       return;
     }
