@@ -24,6 +24,8 @@ function convertMs(ms) {
 
 const addLeadingZero = value => String(value).padStart(2, '0');
 
+let timerId = null;
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -69,9 +71,8 @@ const updateTimer = () => {
   dataHours.textContent = addLeadingZero(t.hours);
   dataMinutes.textContent = addLeadingZero(t.minutes);
   dataSeconds.textContent = addLeadingZero(t.seconds);
-  if (Object.values(t).some(value => value > 0)) {
-    const timerId = setTimeout(updateTimer, 1000);
-  } else {
+  if (Object.values(t).every(value => value === 0)) {
+    clearInterval(timerId);
     btnStart.disabled = false;
     datePicker.disabled = false;
   }
@@ -80,5 +81,5 @@ const updateTimer = () => {
 btnStart.addEventListener('click', () => {
   btnStart.disabled = true;
   datePicker.disabled = true;
-  updateTimer();
+  timerId = setInterval(updateTimer, 1000);
 });
